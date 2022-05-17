@@ -3,7 +3,7 @@ var qrcode = require('qrcode-terminal')
 
 const client = new Client({
     puppeteer: { headless: true },
-    authStrategy: new LocalAuth({ dataPath: '/temp/'}),
+    authStrategy: new LocalAuth({ dataPath: './temp/'}),
 })
 
 client.on('qr', (qr) => {

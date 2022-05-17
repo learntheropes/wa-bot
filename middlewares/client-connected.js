@@ -12,13 +12,13 @@ const clientConnected = asyncHandler(async (req, res, next) => {
 
     if (!state) {
         res.status(500).json({
-            status: "failed",
+            status: "error",
             message: "Client not connected"            
         })
         return      
     } else if (state && state !== 'CONNECTED') {
         res.status(500).json({
-            status: "failed",
+            status: "error",
             message: `Client is ${state}`           
         })
         return          

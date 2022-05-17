@@ -7,7 +7,7 @@ const verifyNumber = asyncHandler(async (req, res, next) => {
 
     if (!numberId) {
         res.status(500).json({
-            status: "failed",
+            status: "error",
             message: "Not a valid Whatsapp number"            
         })
         return         

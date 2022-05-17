@@ -9,7 +9,8 @@ const authenticateAuth0Token = require('../middlewares/authentication-auth0')
 router.post('/login', authenticateAuth0Token, clientIsConnected, numberIsRegistered, asyncHandler(async (req,res) => {
 
     const phone = `${req.body.recipient.replace('+','')}@c.us`
-    const message = req.body.body
+    const code = req.body.body
+    const message = `Tu código de acceso es: *${code}*`
 
     const response = await client.sendMessage(phone,message)
 

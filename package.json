@@ -9,12 +9,13 @@
   "author": "Giovanni La Perna giovannilaperna@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
+    "ngrok": "^4.3.1",
     "qrcode-terminal": "^0.12.0",
-    "rmfr": "^2.0.0",
     "whatsapp-web.js": "^1.16.6"
   }
 }

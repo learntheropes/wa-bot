@@ -8,14 +8,13 @@ function authenticateToken(req, res, next) {
 
     if (!token) return res.sendStatus(401)
 
-    jwt.verify(token, process.env.AUTH0_TOKEN_SECRET, { subject: 'urn:Auth0', audience: 'urn:wwebjs' }, (err, user) => {
+    jwt.verify(token, process.env.CUSTOM_TOKEN_SECRET, { subject: 'urn:Auth0', audience: 'urn:wabot' }, (err, user) => {
 
         if (err) {
             console.log(err)
             return res.sendStatus(403)
         }
 
-        console.log(user)
         next()
     })
 }
