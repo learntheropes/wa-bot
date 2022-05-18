@@ -1,12 +1,16 @@
+const fm = require('./lib/fm')
+const { q, client } = require('./lib/fauna')
 const ngrok = require('ngrok')
 const axios = require('axios').default
 const express = require('express')
 const bodyParser = require('body-parser')
-const client = require('./whatsapp')
+const wa = require('./whatsapp')
 const dotenv = require('dotenv')
 dotenv.config()
 
 const port = 8000
+
+const sleep = ms => new Promise(r => setTimeout(r, ms))
 
 ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN }).then(async url => {
     try {
@@ -81,7 +85,18 @@ ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN }).then(async url => {
             }  
         })
 
-        client.initialize()
+        wa.initialize()
+
+        await sleep(1000 * 30)
+        
+        const state = await wa.getState() 
+
+        await client.query(
+            q.Update(
+                q.Ref(q.Collection('status'), '332036570083229762'),
+                { data: { state }},
+            )
+        )
     } catch (error) {
         console.log(error)
     }
@@ -90,9 +105,9 @@ ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN }).then(async url => {
 })
 
 process.on("SIGINT", async () => {
-    console.log("(SIGINT) Shutting down...");
-    await client.destroy();
-    process.exit(0);
+    console.log("(SIGINT) Shutting down...")
+    await wa.destroy()
+    process.exit(0)
 })
 
 const app = express()
