@@ -45,11 +45,8 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
             )
         )
 
-        console.log('data', data)
-
         for (var index in data) {
             const { value: { id }} = data[index]
-            console.log('id', id)
             await client.query(
                 q.Delete(q.Ref(q.Collection('verifications'), id))
             )
