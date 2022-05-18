@@ -1,5 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js')
 var qrcode = require('qrcode-terminal')
+const { q, client } = require('./lib/fauna')
 
 const wa = new Client({
     puppeteer: { headless: true },
@@ -20,8 +21,14 @@ wa.on('auth_failure', msg => {
     console.error('AUTHENTICATION FAILURE', msg)
 })
 
-wa.on('ready', () => {
+wa.on('ready', async () => {
     console.log('READY')
+    await client.query(
+        q.Update(
+            q.Ref(q.Collection('status'), '332036570083229762'),
+            { data: { state: 'CONNECTED' }},
+        )
+    )
 })
 
 wa.on('change_state', state => {
