@@ -1,35 +1,35 @@
 const { Client, LocalAuth } = require('whatsapp-web.js')
 var qrcode = require('qrcode-terminal')
 
-const client = new Client({
+const wa = new Client({
     puppeteer: { headless: true },
     authStrategy: new LocalAuth({ dataPath: './temp/'}),
 })
 
-client.on('qr', (qr) => {
+wa.on('qr', (qr) => {
     console.log('QR RECEIVED', qr)
     qrcode.generate(qr, { small: true })
     console.log(qrcode)
 })
 
-client.on('authenticated', () => {
+wa.on('authenticated', () => {
     console.log('AUTHENTICATED')
 })
 
-client.on('auth_failure', msg => {
+wa.on('auth_failure', msg => {
     console.error('AUTHENTICATION FAILURE', msg)
 })
 
-client.on('ready', () => {
+wa.on('ready', () => {
     console.log('READY')
 })
 
-client.on('change_state', state => {
+wa.on('change_state', state => {
     console.log('CHANGE STATE', state )
 })
 
-client.on('disconnected', (reason) => {
+wa.on('disconnected', (reason) => {
     console.log('Client was logged out', reason)
 })
 
-module.exports = client
+module.exports = wa

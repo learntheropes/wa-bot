@@ -6,7 +6,9 @@ const client = require('./whatsapp')
 const dotenv = require('dotenv')
 dotenv.config()
 
-ngrok.connect({ port: 8000 }).then(async url => {
+const port = 8000
+
+ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN, host_header: "localhost:8888" }).then(async url => {
     try {
         const { data: { access_token }} = await axios.post(`https://${process.env.AUTH0_URL}/oauth/token`, {
             grant_type: 'client_credentials',
@@ -94,14 +96,23 @@ process.on("SIGINT", async () => {
 })
 
 const app = express()
-const port = 8000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 const login = require('./routes/login')
+const codeSend = require('./routes/code-send')
+const codeVerify = require('./routes/code-verify')
 
 app.use(login)
+app.use(codeSend)
+app.use(codeVerify)
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
+});
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)

@@ -1,11 +1,11 @@
 const asyncHandler = require('express-async-handler')
-const client = require('../whatsapp')
+const wa = require('../whatsapp')
 
 const clientConnected = asyncHandler(async (req, res, next) => {
 
     let state 
     try {
-        state = await client.getState() 
+        state = await wa.getState() 
     } catch (error) {
         state = null
     }
