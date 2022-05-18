@@ -8,7 +8,7 @@ dotenv.config()
 
 const port = 8000
 
-ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN, host_header: "localhost:8888" }).then(async url => {
+ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN }).then(async url => {
     try {
         const { data: { access_token }} = await axios.post(`https://${process.env.AUTH0_URL}/oauth/token`, {
             grant_type: 'client_credentials',
