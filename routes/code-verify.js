@@ -15,15 +15,7 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
 
     if (exists) {
 
-        const { ref: { value: { id }}} = await client.query(
-            q.Get(
-                q.Match(q.Index('verifications_by_recipient_and_code'), recipient, parseInt(code))
-            )
-        )
-
-        await client.query(
-            q.Delete(q.Ref(q.Collection('verifications'), id))
-        )
+        await cleanDatabse(recipient)
 
         await client.query(
             q.Create(
@@ -38,19 +30,7 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
         })
     } else {
 
-        const { data } = await client.query(
-            q.Paginate(
-                q.Match(q.Index("verifications_by_recipient"), recipient),
-                { size: 100000 }
-            )
-        )
-
-        for (var index in data) {
-            const { value: { id }} = data[index]
-            await client.query(
-                q.Delete(q.Ref(q.Collection('verifications'), id))
-            )
-        }
+        await cleanDatabse(recipient)
 
         res.status(500).json({
             status:'error',
@@ -58,5 +38,22 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
         })      
     }
 }))
+
+const cleanDatabse = async (recipient) => {
+
+    const { data } = await client.query(
+        q.Paginate(
+            q.Match(q.Index("verifications_by_recipient"), recipient),
+            { size: 100000 }
+        )
+    )
+
+    for (var index in data) {
+        const { value: { id }} = data[index]
+        await client.query(
+            q.Delete(q.Ref(q.Collection('verifications'), id))
+        )
+    }
+}
 
 module.exports = router
