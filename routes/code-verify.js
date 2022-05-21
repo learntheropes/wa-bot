@@ -5,7 +5,7 @@ const { q, client } = require('../lib/fauna')
 
 router.post('/code-verify', asyncHandler(async (req,res) => {
 
-    const { recipient, code, name, comment, model } = req.body
+    const { recipient, code } = req.body
 
     const exists = await client.query(
         q.Exists(
@@ -17,20 +17,11 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
 
         await cleanDatabase(recipient)
 
-        await client.query(
-            q.Create(
-                q.Collection('comments'),
-                { data: { name, comment, model }},
-            )
-        )      
-
         res.status(200).json({
             status:'success',
-            message:`Comment added`
+            message:`Valid code`
         })
     } else {
-
-        await cleanDatabase(recipient)
 
         res.status(500).json({
             status:'error',
