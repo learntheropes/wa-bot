@@ -15,7 +15,7 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
 
     if (exists) {
 
-        await cleanDatabse(recipient)
+        await cleanDatabase(recipient)
 
         await client.query(
             q.Create(
@@ -30,7 +30,7 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
         })
     } else {
 
-        await cleanDatabse(recipient)
+        await cleanDatabase(recipient)
 
         res.status(500).json({
             status:'error',
@@ -39,7 +39,7 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
     }
 }))
 
-const cleanDatabse = async (recipient) => {
+const cleanDatabase = async (recipient) => {
 
     const { data } = await client.query(
         q.Paginate(
