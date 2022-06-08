@@ -1,9 +1,7 @@
-const fm = require('./lib/fm')
 const { q, client } = require('./lib/fauna')
 const ngrok = require('ngrok')
 const axios = require('axios').default
 const express = require('express')
-const bodyParser = require('body-parser')
 const wa = require('./whatsapp')
 const dotenv = require('dotenv')
 dotenv.config()
