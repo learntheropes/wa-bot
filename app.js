@@ -118,10 +118,12 @@ app.use(express.urlencoded({ extended: true }))
 const login = require('./routes/login')
 const codeSend = require('./routes/code-send')
 const codeVerify = require('./routes/code-verify')
+const getStatus = require('./routes/get-status')
 
 app.use(login)
 app.use(codeSend)
 app.use(codeVerify)
+app.use(getStatus)
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)

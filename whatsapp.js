@@ -22,7 +22,7 @@ wa.on('auth_failure', msg => {
 })
 
 wa.on('ready', async () => {
-    console.log('READY')
+    console.log('CONNECTED')
     await client.query(
         q.Update(
             q.Ref(q.Collection('status'), '332036570083229762'),
@@ -31,8 +31,14 @@ wa.on('ready', async () => {
     )
 })
 
-wa.on('change_state', state => {
-    console.log('CHANGE STATE', state )
+wa.on('change_state', async (state) => {
+    console.log(state)
+    await client.query(
+        q.Update(
+            q.Ref(q.Collection('status'), '332036570083229762'),
+            { data: { state }},
+        )
+    )
 })
 
 wa.on('disconnected', (reason) => {
