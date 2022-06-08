@@ -8,7 +8,7 @@ const auth = (req, res, next) => {
 
     if (!token) return res.sendStatus(401)
 
-    jwt.verify(token, process.env.CUSTOM_TOKEN_SECRET, { subject: 'urn:Auth0', audience: 'urn:wabot' }, (err, user) => {
+    jwt.verify(token, process.env.AUTH0_CUSTOM_TOKEN_SECRET, { subject: 'urn:Auth0', audience: 'urn:wabot' }, (err, user) => {
 
         if (err) {
             console.log(err)

@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const router = Router()
 const asyncHandler = require('express-async-handler')
-const wa = require('../whatsapp')
+const wa = require('../lib/whatsapp')
 const clientIsConnected = require('../middlewares/client-connected')
 const numberIsRegistered = require('../middlewares/verify-number')
 const auth = require('../middlewares/authentication-auth0')

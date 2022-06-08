@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler')
-const wa = require('../whatsapp')
+const wa = require('../lib/whatsapp')
 
 const clientConnected = asyncHandler(async (req, res, next) => {
 
