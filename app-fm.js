@@ -1,6 +1,6 @@
 const fm = require('./lib/fm')
 const del = require('del')
-const { q, client } = require('./lib/fauna')
+const { q, client, updateFaunaStatus } = require('./lib/fauna')
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
@@ -13,7 +13,9 @@ sleep(1000 * 40).then(async () => {
   )
 
   if (!state) {
-    await del(['temp']);
+    await del(['temp'])
+    console.log('DISCONNECTED: ')
+    await updateFaunaStatus('DISCONNECTED')
     fm.restart()
   }
 })

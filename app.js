@@ -1,9 +1,9 @@
-const { q, client } = require('./lib/fauna')
+const { updateFaunaStatus } = require('./lib/fauna')
 const { auth0GetToken, auth0UpdateGateway} = require('./lib/auth0')
 const { vercelUpdateEnv, vercelDeploy } = require('./lib/vercel')
+const wa = require('./lib/whatsapp')
 const ngrok = require('ngrok')
 const express = require('express')
-const wa = require('./lib/whatsapp')
 const dotenv = require('dotenv')
 dotenv.config()
 
@@ -25,12 +25,7 @@ ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN }).then(async ngrokUrl 
         
         const state = await wa.getState() 
 
-        await client.query(
-            q.Update(
-                q.Ref(q.Collection('status'), '332036570083229762'),
-                { data: { state }},
-            )
-        )
+        await updateFaunaStatus(state)
     } catch (error) {
         console.log(error)
     }
@@ -41,6 +36,8 @@ ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN }).then(async ngrokUrl 
 process.on("SIGINT", async () => {
     console.log("(SIGINT) Shutting down...")
     await wa.destroy()
+    console.log('DISCONNECTED: ')
+    await updateFaunaStatus('DISCONNECTED')
     process.exit(0)
 })
 
