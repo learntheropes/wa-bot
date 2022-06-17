@@ -20,9 +20,7 @@ ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN }).then(async ngrokUrl 
         await vercelDeploy()
 
         wa.initialize()
-
         await sleep(1000 * 30)
-        
         const state = await wa.getState() 
 
         await updateFaunaStatus(state)
