@@ -25,7 +25,7 @@ router.post('/code-verify', asyncHandler(async (req,res) => {
 
         res.status(500).json({
             status:'error',
-            message:`Invalid code`
+            message:`invalidWhatsappCode`
         })      
     }
 }))
