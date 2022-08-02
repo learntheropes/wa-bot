@@ -3,7 +3,7 @@ const client = require('../lib/whatsapp')
 
 const verifyNumber = asyncHandler(async (req, res, next) => {
 
-    const numberId = await client.getNumberId(req.body.recipient)
+    const numberId = await client.getNumberId(req.body.recipient.replace('+',''))
 
     if (!numberId) {
         res.status(500).json({
