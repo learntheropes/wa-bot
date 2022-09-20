@@ -1,6 +1,6 @@
 const { updateFaunaStatus } = require('./lib/fauna')
 const { auth0GetToken, auth0UpdateGateway} = require('./lib/auth0')
-const { vercelUpdateEnv, vercelDeploy } = require('./lib/vercel')
+const { digitalOceanUpdateApp } = require('./lib/digitalocean')
 const wa = require('./lib/whatsapp')
 const ngrok = require('ngrok')
 const express = require('express')
@@ -16,8 +16,7 @@ ngrok.connect({ port, authtoken: process.env.NGROK_TOKEN }).then(async ngrokUrl 
         const access_token = await auth0GetToken()
         await auth0UpdateGateway(ngrokUrl, access_token)
 
-        await vercelUpdateEnv(ngrokUrl)
-        await vercelDeploy()
+        await digitalOceanUpdateApp(ngrokUrl)
 
         wa.initialize()
         await sleep(1000 * 30)
