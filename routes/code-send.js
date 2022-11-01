@@ -27,6 +27,10 @@ router.post('/code-send', clientIsConnected, numberIsRegistered, asyncHandler(as
             status:'success',
             message:`Message successfully sent to ${recipient}`
         })
+    } else {
+        res.status(500).json({
+            status:'error'
+        }) 
     }
 }))
 
