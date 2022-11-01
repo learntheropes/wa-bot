@@ -47,11 +47,13 @@ const login = require('./routes/login')
 const codeSend = require('./routes/code-send')
 const codeVerify = require('./routes/code-verify')
 const getStatus = require('./routes/get-status')
+const messageSend = require('./routes/message-send')
 
 app.use(login)
 app.use(codeSend)
 app.use(codeVerify)
 app.use(getStatus)
+app.use(messageSend)
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)
