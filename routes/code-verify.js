@@ -2,8 +2,9 @@ const { Router } = require('express')
 const router = Router()
 const asyncHandler = require('express-async-handler')
 const { q, client } = require('../lib/fauna')
+const auth = require('../middlewares/authentication')
 
-router.post('/code-verify', asyncHandler(async (req,res) => {
+router.post('/code-verify', auth, asyncHandler(async (req,res) => {
 
     const { recipient, code } = req.body
 

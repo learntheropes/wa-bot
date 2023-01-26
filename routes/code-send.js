@@ -2,11 +2,12 @@ const { Router } = require('express')
 const router = Router()
 const asyncHandler = require('express-async-handler')
 const wa = require('../lib/whatsapp')
+const auth = require('../middlewares/authentication')
 const clientIsConnected = require('../middlewares/client-connected')
 const numberIsRegistered = require('../middlewares/verify-number')
 const { q, client } = require('../lib/fauna')
 
-router.post('/code-send', clientIsConnected, numberIsRegistered, asyncHandler(async (req,res) => {
+router.post('/code-send', auth, clientIsConnected, numberIsRegistered, asyncHandler(async (req,res) => {
 
     const { recipient } = req.body
     const phone = `${recipient.replace('+','')}@c.us`
